@@ -53,10 +53,20 @@ class MainActivity : ComponentActivity() {
                         Button(onClick = { login() }) {
                             Text("Login")
                         }
+                        Button(onClick = { logout() }) {
+                            Text(text = "Logout")
+                        }
                     }
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        val currentUser = auth.currentUser
+        updateUI(currentUser)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -123,6 +133,11 @@ class MainActivity : ComponentActivity() {
                 // do nothing and continue presenting the signed-out UI.
                 Log.d(TAG, e.localizedMessage)
             }
+    }
+
+    fun logout() {
+        auth.signOut()
+        updateUI(null)
     }
 }
 
